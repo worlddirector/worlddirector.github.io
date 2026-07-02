@@ -56,11 +56,116 @@
             letter-spacing: -0.02em;
             text-align: center;
             line-height: 1.35;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
             color: #0f172a;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.9rem 1rem;
+            margin: 0 auto 1.7rem auto;
+        }
+
+        .resource-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            min-width: 138px;
+            justify-content: center;
+            padding: 0.55rem 1rem;
+            background: var(--card-bg);
+            color: var(--accent-strong);
+            border: 1px solid rgba(148, 163, 184, 0.55);
+            border-radius: 999px;
+            box-shadow: 0 6px 18px var(--shadow-color);
+            font-family: var(--font-headline);
+            font-size: clamp(0.9rem, 1.25vw, 1rem);
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            line-height: 1;
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .resource-button:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-border);
+            box-shadow: 0 10px 24px rgba(30, 41, 59, 0.16);
+        }
+
+        .resource-icon {
+            width: 1.15em;
+            height: 1.15em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+
+        .resource-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .resource-icon.arxiv-logo {
+            color: var(--accent-strong);
+        }
+
+        .resource-icon.huggingface-logo {
+            font-size: 1.05em;
+        }
+
+        .author-info {
+            max-width: 1050px;
+            margin: 0 auto 2.5rem auto;
+            text-align: center;
+            color: var(--text-main);
+            font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+            line-height: 1.8;
+        }
+
+        .author-line {
+            margin-bottom: 0.15rem;
+        }
+
+        .author-info strong {
+            font-weight: 700;
+        }
+
+        .author-link {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.28);
+            transition: color 0.18s ease, border-color 0.18s ease;
+        }
+
+        .author-link:hover {
+            color: var(--accent-strong);
+            border-color: var(--accent-strong);
+        }
+
+        .author-info sup {
+            font-size: 0.72em;
+            vertical-align: super;
+            line-height: 0;
+        }
+
+        .affiliations {
+            margin-top: 0.65rem;
+            color: var(--text-muted);
+            font-size: 0.95em;
+        }
+
+        .corresponding-author {
+            margin-top: 0.15rem;
+            color: var(--text-muted);
+            font-size: 0.9em;
         }
 
         h2 {
@@ -281,6 +386,7 @@
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
             h2 { font-size: 1.5rem; }
+            .resource-button { min-width: 128px; }
             .video-card { flex-basis: 100%; max-width: 100%; }
             .comparisons .video-grid { grid-template-columns: 1fr; }
             .comparisons .video-grid.featured-layout .comparison-subgrid { grid-template-columns: 1fr; }
@@ -295,6 +401,58 @@
     <!-- Hero Section -->
     <header class="section">
         <h1>WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory</h1>
+        <nav class="resource-links" aria-label="Project resources">
+            <a class="resource-button" href="" aria-label="Paper">
+                <span class="resource-icon arxiv-logo" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" role="img" focusable="false" aria-hidden="true">
+                        <path d="M13 5h16l8 8v30H13V5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M29 5v9h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M19 23h12M19 29h12M19 35h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span>Paper</span>
+            </a>
+            <a class="resource-button" href="" aria-label="GitHub">
+                <span class="resource-icon" aria-hidden="true">
+                    <svg viewBox="0 0 98 96" role="img" focusable="false" aria-hidden="true">
+                        <path fill="currentColor" fill-rule="evenodd" d="M48.85 0C21.84 0 0 22 0 49.22c0 21.76 14.06 40.17 33.58 46.69 2.44.45 3.34-1.06 3.34-2.37 0-1.17-.04-5.04-.07-9.14-13.66 2.99-16.54-5.9-16.54-5.9-2.23-5.71-5.45-7.23-5.45-7.23-4.46-3.07.34-3.01.34-3.01 4.93.35 7.53 5.1 7.53 5.1 4.38 7.56 11.5 5.38 14.31 4.11.44-3.2 1.71-5.38 3.12-6.62-10.9-1.25-22.36-5.49-22.36-24.43 0-5.4 1.91-9.81 5.05-13.27-.51-1.25-2.19-6.28.48-13.09 0 0 4.12-1.33 13.48 5.07a46.36 46.36 0 0 1 24.53 0c9.36-6.4 13.47-5.07 13.47-5.07 2.68 6.81.99 11.84.49 13.09 3.14 3.46 5.04 7.87 5.04 13.27 0 18.99-11.48 23.16-22.42 24.38 1.76 1.53 3.33 4.55 3.33 9.17 0 6.62-.06 11.95-.06 13.57 0 1.32.88 2.85 3.38 2.37C83.95 89.37 98 70.97 98 49.22 98 22 76.15 0 48.85 0Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+                <span>GitHub</span>
+            </a>
+            <a class="resource-button" href="" aria-label="Model">
+                <span class="resource-icon huggingface-logo" aria-hidden="true">🤗</span>
+                <span>Model</span>
+            </a>
+        </nav>
+        <div class="author-info" aria-label="Authors and affiliations">
+            <div class="author-line">
+                <a class="author-link" href="https://scholar.google.com/citations?user=0uO4fzkAAAAJ&amp;hl=zh-CN"><strong>Hanlin Wang</strong></a><sup>1,2</sup> &nbsp;
+                <a class="author-link" href="https://ken-ouyang.github.io/"><strong>Hao Ouyang</strong></a><sup>2</sup> &nbsp;
+                <a class="author-link" href="https://github.com/qiuyu96"><strong>Qiuyu Wang</strong></a><sup>2</sup> &nbsp;
+                <a class="author-link" href="https://github.com/encounter1997"><strong>Wen Wang</strong></a><sup>3</sup> &nbsp;
+                <a class="author-link" href="https://bqy.info/"><strong>Qingyan Bai</strong></a><sup>1,2</sup>
+            </div>
+            <div class="author-line">
+                <a class="author-link" href="https://felixcheng97.github.io/"><strong>Ka Leong Cheng</strong></a><sup>2</sup> &nbsp;
+                <a class="author-link" href="https://bruceyy.com/"><strong>Yue Yu</strong></a><sup>1,2</sup> &nbsp;
+                <a class="author-link" href="https://yixuanli98.github.io/"><strong>Yixuan Li</strong></a><sup>4,2</sup> &nbsp;
+                <a class="author-link" href="https://yihao-meng.github.io/"><strong>Yihao Meng</strong></a><sup>1,2</sup> &nbsp;
+                <a class="author-link" href="https://zliucz.github.io/"><strong>Zichen Liu</strong></a><sup>1,2</sup>
+            </div>
+            <div class="author-line">
+                <a class="author-link" href="https://zengyh1900.github.io/"><strong>Yanhong Zeng</strong></a><sup>2</sup> &nbsp;
+                <a class="author-link" href="https://shenyujun.github.io/"><strong>Yujun Shen</strong></a><sup>2</sup> &nbsp;
+                <a class="author-link" href="https://cqf.io/"><strong>Qifeng Chen</strong></a><sup>1,*</sup>
+            </div>
+            <div class="affiliations">
+                <sup>1</sup>HKUST &nbsp;
+                <sup>2</sup>Ant Group &nbsp;
+                <sup>3</sup>ZJU &nbsp;
+                <sup>4</sup>CUHK
+            </div>
+            <div class="corresponding-author"><sup>*</sup>Corresponding author.</div>
+        </div>
         
         <!-- Main Placeholder Video Set -->
         <div class="video-set">
