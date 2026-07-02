@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorldDirector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-color: #e8ecf1;
+            --bg-gradient-mid: #eef2f6;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --accent-border: #94a3b8;
+            --accent-strong: #475569;
+            --shadow-color: rgba(30, 41, 59, 0.12);
+            --section-title-bg: linear-gradient(145deg, #334155 0%, #1e293b 100%);
+            --section-title-fg: #f8fafc;
+
+            /* Typography */
+            --font-headline: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(180deg, var(--bg-color) 0%, var(--bg-gradient-mid) 45%, var(--bg-color) 100%),
+                radial-gradient(rgba(148, 163, 184, 0.35) 1px, transparent 1px);
+            background-size: auto, 24px 24px;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography Styles */
+        h1, h2, h3 {
+            font-family: var(--font-headline);
+            color: var(--text-main);
+        }
+
+        h1 {
+            font-size: clamp(1.65rem, 3.2vw, 2.65rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-align: center;
+            line-height: 1.35;
+            margin-bottom: 2rem;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #0f172a;
+        }
+
+        h2 {
+            font-size: clamp(1.35rem, 2vw, 1.65rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: inline-block;
+            background: var(--section-title-bg);
+            color: var(--section-title-fg);
+            padding: 0.55rem 1.35rem;
+            transform: none;
+            border-radius: 10px;
+            letter-spacing: 0.01em;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .abstract-box h2 {
+            transform: none;
+            box-shadow: none;
+            background: transparent;
+            color: var(--text-main);
+            padding: 0 0 0.5rem 0;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 0;
+            border-bottom: 3px solid var(--accent-strong);
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            color: var(--accent-strong);
+            text-decoration: none;
+            border-left: 4px solid #3b82f6;
+            padding-left: 0.85rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Layout Structure */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        /* Abstract & Emphasized Areas */
+        .abstract-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            max-width: 900px;
+            margin: 0 auto 4rem auto;
+            border-radius: 12px;
+        }
+
+        /* Video Sets & Grids */
+        .video-set {
+            margin-bottom: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Individual Video Cards */
+        .video-card {
+            flex: 1 1 350px;
+            max-width: 600px;
+            background: var(--card-bg);
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Equal-width cards per row within each comparison set */
+        .comparisons .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+        }
+
+        .comparisons .video-card {
+            flex: unset;
+            max-width: none;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .comparisons .video-grid.featured-layout {
+            grid-template-columns: minmax(180px, 1fr) minmax(420px, 3fr);
+            align-items: center;
+        }
+
+        .comparisons .video-grid.featured-layout .featured-video {
+            grid-column: 1;
+            align-self: center;
+        }
+
+        .comparisons .video-grid.featured-layout .comparison-subgrid {
+            grid-column: 2;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(140px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-label {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-align: center;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+            letter-spacing: 0.01em;
+        }
+
+        /* Uniform Video Aspect Ratio */
+        .video-card video {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Forces 3D videos to match normal video heights */
+            object-fit: cover; /* Crops any excess top/bottom white space smoothly */
+            display: block;
+            background-color: #000;
+        }
+
+        .video-card video[src*="_3d.mp4"] {
+            object-fit: contain;
+            background: #fff;
+        }
+
+        /* Prompt Box */
+        .prompt-box {
+            text-align: left;
+            background: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.55);
+            padding: 1.2rem 2rem;
+            margin: 2rem auto 0;
+            max-width: 800px;
+            box-shadow: 0 6px 24px var(--shadow-color);
+            font-weight: 500;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        /* Same semantic row → same color across all prompt boxes */
+        .prompt-seg {
+            display: block;
+            line-height: 1.45;
+        }
+
+        .prompt-seg strong {
+            font-weight: 800;
+        }
+
+        .prompt-seg-global {
+            color: #1565c0;
+        }
+
+        .prompt-seg-t0 {
+            color: #c62828;
+        }
+
+        .prompt-seg-t1 {
+            color: #2e7d32;
+        }
+
+        .prompt-seg-t2 {
+            color: #6a1b9a;
+        }
+
+        .prompt-seg-t3 {
+            color: #e65100;
+        }
+        
+        .prompt-box::before {
+            content: "PROMPT";
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(145deg, #475569 0%, #334155 100%);
+            color: #f8fafc;
+            font-family: var(--font-body);
+            font-weight: 700;
+            padding: 3px 12px;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            border-radius: 999px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+        }
+
+        /* Responsive Tweaks */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            .video-card { flex-basis: 100%; max-width: 100%; }
+            .comparisons .video-grid { grid-template-columns: 1fr; }
+            .comparisons .video-grid.featured-layout .comparison-subgrid { grid-template-columns: 1fr; }
+            .abstract-box { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Hero Section -->
+    <header class="section">
+        <h1>WorldDirector: Building Controllable World Simulators with Persistent Dynamic Memory</h1>
+        
+        <!-- Main Placeholder Video Set -->
+        <div class="video-set">
+            <div class="video-grid" style="max-width: 900px;">
+                <div class="video-card">
+                    <video src="WorldDirector.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abstract -->
+        <div class="abstract-box">
+            <h2>Abstract</h2>
+            <p>
+                We present WorldDirector, a highly controllable video world model framework designed for persistent dynamic object memory and unrestricted viewpoint exploration. Unlike existing world models that entangle physical dynamics with pixel rendering and rely on continuous visual observation to sustain motion, our framework explicitly decouples semantic motion orchestration from visual generation. By leveraging an LLM to coordinate 3D trajectories with camera movements and subsequently employing these orchestrated trajectories as control signals for video generation, our approach ensures strict physical logic and appearance stability, successfully preserving the exact visual identities of dynamic entities even when they re-enter the scene after prolonged periods out of view. Experimental results demonstrate that our method supports the synthesis of complex and extended events with unprecedented controllability and persistent dynamic object memory.
+            </p>
+        </div>
+    </header>
+
+    <!-- Dynamic Memory Section -->
+    <section class="section">
+        <h2>Dynamic Memory</h2>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="dynamic_memory/woman/woman_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="dynamic_memory/woman/woman_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> A woman in an elegant white dress walks along a coastal road beside a black sports car that first came to a halt and then starts to pull away, set against a stunning ocean sunset.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-10s]:</strong> A black sports car was parked in place. A woman walks forward on the road.</div>
+                <div class="prompt-seg prompt-seg-t1"><strong>[10-15s]:</strong> A black sports is driving on the road. A woman walks forward on the road.</div>
+            </div>
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="dynamic_memory/car/car_long_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="dynamic_memory/car/car_long_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> A trunk car is captured in motion from behind as it cruises through a large parking area, heading past a 'QUICK MART' convenience store under a twilight sky painted with shades of purple and orange.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-10s]:</strong> A trunk car truns at the intersection and drives on the road.</div>
+                <div class="prompt-seg prompt-seg-t1"><strong>[10-20s]:</strong> A car was parked in place.</div>
+                <div class="prompt-seg prompt-seg-t2"><strong>[20-25s]:</strong> The truck car drove into the distance.</div>
+            </div>
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="dynamic_memory/fire/fire_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="dynamic_memory/fire/fire_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> Beside a small campfire surrounded by stones, a man in a yellow hoodie and a red beanie gazed at the empty desert road and distant mountains as twilight enveloped the area.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-5s]:</strong> A man stands by the campfire, gazing into the distance.</div>
+                <div class="prompt-seg prompt-seg-t1"><strong>[5-10s]:</strong> The man walks into the distance.</div>
+            </div>
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="dynamic_memory/walk/walk_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="dynamic_memory/walk/walk_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> "A full-length photograph capturing a woman and a man with contrasting styles—one in a vibrant pink and turquoise tracksuit checking her phone, and the other in a bright yellow jacket and red cargo pants—standing in front of a wall.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-15s]:</strong> The man walks back and forth in the open space. The woman walks back and forth in the open space.</div>
+            </div>
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="dynamic_memory/backward/backward_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="dynamic_memory/backward/backward_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> A man in a red hoodie and white cargo pants walks down the center of a suburban residential street.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-15s]:</strong> A man walks down the center of a suburban residential street.</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Promptable Events Section -->
+    <section class="section">
+        <h2>Promptable Events</h2>
+        
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="promptable_events/events_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="promptable_events/events.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> In a vast, open space, there are a few trees by the roadside.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-15s]:</strong> A horse was walking on the road.</div>
+                <div class="prompt-seg prompt-seg-t1"><strong>[15-20s]:</strong> A bus drove past the camera.</div>
+                <div class="prompt-seg prompt-seg-t2"><strong>[20-35s]:</strong> On a vast, empty field, a person stood still.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Viewpoints Section -->
+    <section class="section">
+        <h2>Viewpoints Control</h2>
+        
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="viewpoint/cat_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="viewpoint/cat.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> A ginger cat with a small backpack, amidst a vast green field with a giant stone bust and a gnarled tree.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-15s]:</strong> A ginger cat with a small backpack walks around. A stone statue keeps still in place. A tree keeps still in place.</div>
+            </div>
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">3D Trajectories</div>
+                    <video src="viewpoint/view_change_3d.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Result</div>
+                    <video src="viewpoint/view_change.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> A man wearing a white robe stands in a grand ancient courtyard, gazing at majestic ruins illuminated by flaming braziers under a twilight sky.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-5s]:</strong> A man walks forward.</div>
+                <div class="prompt-seg prompt-seg-t1"><strong>[5-10s]:</strong> A man turns around.</div>
+                <div class="prompt-seg prompt-seg-t2"><strong>[10-15s]:</strong> A man stands still on the ground.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparisons Section -->
+    <section class="section comparisons">
+        <h2>Comparisons</h2>
+
+        <div class="video-set">
+            <div class="video-grid featured-layout">
+                <div class="video-card featured-video"><div class="video-label">3D Trajectories</div><video src="dynamic_memory/woman/woman_3d.mp4" controls loop muted autoplay></video></div>
+                <div class="comparison-subgrid">
+                    <div class="video-card"><div class="video-label">Ours</div><video src="dynamic_memory/woman/woman_ours.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HY-World</div><video src="dynamic_memory/woman/woman_HY.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HyDRA</div><video src="dynamic_memory/woman/woman_hydra.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Infinite-World</div><video src="dynamic_memory/woman/woman_infinite.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">LingBot-World</div><video src="dynamic_memory/woman/woman_lingbot.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Yume1.5</div><video src="dynamic_memory/woman/woman_Yume.mp4" controls loop muted autoplay></video></div>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the woman comparison set.</div> -->
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid featured-layout">
+                <div class="video-card featured-video"><div class="video-label">3D Trajectories</div><video src="dynamic_memory/car/car_3d.mp4" controls loop muted autoplay></video></div>
+                <div class="comparison-subgrid">
+                    <div class="video-card"><div class="video-label">Ours</div><video src="dynamic_memory/car/car_ours.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HY-World</div><video src="dynamic_memory/car/car_HY.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HyDRA</div><video src="dynamic_memory/car/car_hydra.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Infinite-World</div><video src="dynamic_memory/car/car_infinite.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">LingBot-World</div><video src="dynamic_memory/car/car_lingbot.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Yume1.5</div><video src="dynamic_memory/car/car_Yume.mp4" controls loop muted autoplay></video></div>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the car comparison set.</div> -->
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid featured-layout">
+                <div class="video-card featured-video"><div class="video-label">3D Trajectories</div><video src="dynamic_memory/fire/fire_3d.mp4" controls loop muted autoplay></video></div>
+                <div class="comparison-subgrid">
+                    <div class="video-card"><div class="video-label">Ours</div><video src="dynamic_memory/fire/fire_ours.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HY-World</div><video src="dynamic_memory/fire/fire_HY.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HyDRA</div><video src="dynamic_memory/fire/fire_hydra.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Infinite-World</div><video src="dynamic_memory/fire/fire_infinite.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">LingBot-World</div><video src="dynamic_memory/fire/fire_lingbot.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Yume1.5</div><video src="dynamic_memory/fire/fire_Yume.mp4" controls loop muted autoplay></video></div>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the fire comparison set.</div> -->
+        </div>
+
+        <div class="video-set">
+            <div class="video-grid featured-layout">
+                <div class="video-card featured-video"><div class="video-label">3D Trajectories</div><video src="dynamic_memory/backward/backward_3d.mp4" controls loop muted autoplay></video></div>
+                <div class="comparison-subgrid">
+                    <div class="video-card"><div class="video-label">Ours</div><video src="dynamic_memory/backward/backward_ours.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HY-World</div><video src="dynamic_memory/backward/backward_HY.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">HyDRA</div><video src="dynamic_memory/backward/backward_hydra.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Infinite-World</div><video src="dynamic_memory/backward/backward_infinite.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">LingBot-World</div><video src="dynamic_memory/backward/backward_lingbot.mp4" controls loop muted autoplay></video></div>
+                    <div class="video-card"><div class="video-label">Yume1.5</div><video src="dynamic_memory/backward/backward_Yume.mp4" controls loop muted autoplay></video></div>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the backward comparison set.</div> -->
+        </div>
+
+    </section>
+
+    <!-- Ablation Section -->
+    <section class="section">
+        <h2>Ablation</h2>
+
+        <h3>Appearance Condition</h3>
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">No Appearance Condition</div>
+                    <video src="ablation/appearance_condition/ablation_nobias.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">No Appearance Condition + Self-attention Routing</div>
+                    <video src="ablation/appearance_condition/ablation_bias.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Ours</div>
+                    <video src="dynamic_memory/walk/walk_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <div class="prompt-seg prompt-seg-global"><strong>Global:</strong> "A full-length photograph capturing a woman and a man with contrasting styles—one in a vibrant pink and turquoise tracksuit checking her phone, and the other in a bright yellow jacket and red cargo pants—standing in front of a wall.</div>
+                <div class="prompt-seg prompt-seg-t0"><strong>[0-15s]:</strong> The man walks back and forth in the open space. The woman walks back and forth in the open space.</div>
+            </div>
+        </div>
+
+        <h3>Dynamic Context</h3>
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">No Dynamic Context</div>
+                    <video src="ablation/dynamic_context/ablation_context.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Ours</div>
+                    <video src="dynamic_memory/woman/woman_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the dynamic context ablation set.</div> -->
+        </div>
+
+        <h3>Appearance Condition Drop Mechanism</h3>
+        <div class="video-set">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-label">No Appearance Condition Drop</div>
+                    <video src="ablation/temporal_drop/ablation_nodrop.mp4" controls loop muted autoplay></video>
+                </div>
+                <div class="video-card">
+                    <div class="video-label">Ours</div>
+                    <video src="dynamic_memory/woman/woman_ours.mp4" controls loop muted autoplay></video>
+                </div>
+            </div>
+            <!-- <div class="prompt-box">Prompt for the temporal drop ablation set.</div> -->
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
